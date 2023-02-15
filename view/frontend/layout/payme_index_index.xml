@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Payme</title>
+    </head>
+    <body>
+        <referenceBlock name="copyright" remove="true"/>
+        <referenceBlock name="navigation.sections" remove="true"/>
+        <referenceContainer name="header.container" remove="true" />
+        <referenceContainer name="footer" remove="true" />
+        <referenceContainer name="content">
+            <block class="Deloitte\PayMe\Block\Index\Request" name="payme_index_index" template="Deloitte_PayMe::index.phtml" cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

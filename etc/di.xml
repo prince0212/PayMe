@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Payment Method Facade configuration -->
+<!--    <virtualType name="PayMePaymentGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\Deloitte\PayMe\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Deloitte\PayMe\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayMePaymentGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayMePaymentGatewayCommandPool</argument>
+        </arguments>
+    </virtualType>-->
+
+    <!-- Configuration reader -->
+    <virtualType name="PayMePaymentGatewayConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\Deloitte\PayMe\Model\Ui\ConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Logger, initialized with PayMePaymentGatewayConfig -->
+<!--    <virtualType name="PayMePaymentGatewayLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">PayMePaymentGatewayConfig</argument>
+        </arguments>
+    </virtualType>-->
+
+<!--    <type name="Deloitte\PayMe\Gateway\Http\Client\ClientMock">
+        <arguments>
+            <argument name="logger" xsi:type="object">PayMePaymentGatewayLogger</argument>
+        </arguments>
+    </type>-->
+
+    <!-- Commands infrastructure -->
+<!--    <virtualType name="PayMePaymentGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayMePaymentGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayMePaymentGatewayCaptureCommand</item>
+                <item name="void" xsi:type="string">PayMePaymentGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>-->
+
+    <!-- Authorize command -->
+<!--    <virtualType name="PayMePaymentGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PayMePaymentGatewayAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">PayMePaymentGatewayResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Deloitte\PayMe\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Deloitte\PayMe\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>-->
+
+    <!-- Authorization Request -->
+<!--    <virtualType name="PayMePaymentGatewayAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Deloitte\PayMe\Gateway\Request\AuthorizationRequest</item>
+                <item name="mockData" xsi:type="string">Deloitte\PayMe\Gateway\Request\MockDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Deloitte\PayMe\Gateway\Request\AuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">PayMePaymentGatewayConfig</argument>
+        </arguments>
+    </type>-->
+
+    <!-- Capture command -->
+<!--    <virtualType name="PayMePaymentGatewayCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Deloitte\PayMe\Gateway\Request\CaptureRequest</argument>
+            <argument name="handler" xsi:type="object">Deloitte\PayMe\Gateway\Response\TxnIdHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Deloitte\PayMe\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Deloitte\PayMe\Gateway\Validator\ResponseCodeValidator</argument>
+            <argument name="client" xsi:type="object">Deloitte\PayMe\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>-->
+
+    <!-- Capture Request -->
+<!--    <type name="Deloitte\PayMe\Gateway\Request\CaptureRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">PayMePaymentGatewayConfig</argument>
+        </arguments>
+    </type>-->
+
+    <!-- Void command -->
+<!--    <virtualType name="PayMePaymentGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Deloitte\PayMe\Gateway\Request\VoidRequest</argument>
+            <argument name="handler" xsi:type="object">Deloitte\PayMe\Gateway\Response\TxnIdHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Deloitte\PayMe\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Deloitte\PayMe\Gateway\Validator\ResponseCodeValidator</argument>
+            <argument name="client" xsi:type="object">Deloitte\PayMe\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>-->
+
+    <!-- Void Request -->
+<!--    <type name="Deloitte\PayMe\Gateway\Request\VoidRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">PayMePaymentGatewayConfig</argument>
+        </arguments>
+    </type>-->
+
+    <!-- Response handlers -->
+<!--    <virtualType name="PayMePaymentGatewayResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txnid" xsi:type="string">Deloitte\PayMe\Gateway\Response\TxnIdHandler</item>
+                <item name="fraud" xsi:type="string">Deloitte\PayMe\Gateway\Response\FraudHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>-->
+
+    <!-- Value handlers infrastructure -->
+<!--    <virtualType name="PayMePaymentGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayMePaymentGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayMePaymentGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayMePaymentGatewayConfig</argument>
+        </arguments>
+    </virtualType>-->
+
+    <type name="Deloitte\PayMe\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayMePaymentGatewayConfig</argument>
+        </arguments>
+    </type>
+    
+    <preference for="Deloitte\PayMe\Api\PayMeRepositoryInterface" type="Deloitte\PayMe\Model\ResourceModel\PayMeRepository" />
+    <preference for="Deloitte\PayMeController\Api\Data\PayMeSearchResultInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Deloitte\PayMe\Api\Data\PayMeInterface" type="Deloitte\PayMe\Model\Data\PayMe" />
+</config>

@@ -1,0 +1,103 @@
+<?php
+/** @var Deloitte\PayMe\Block\Index\Request $block */
+
+$paymePaymentRequest = $block->getQrCode();
+?>
+<div class="payme-main">
+    <img src="<?= $block->getImage(); ?>" alt="" style="width: 30%;display:block"/>
+    <div class="payme-log">
+        <div class="payme-log-left">
+            <div class="payme-log-left-title">請用 PayMe 掃描此 PayCode</div>
+            <div class="payme-log-left-div">
+                <div style="text-align: center;padding-bottom:30px">
+                    <span style="display: none">
+                        <img id="logo" width="30" height="30" src="<?php echo $paymePaymentRequest['businessLogos']['tiny']; ?>"
+                            alt="">
+                    </span>
+                    <div id="qr"></div>
+                    <canvas id="payCodeCanvas" width="288" height="288"></canvas>
+                </div>
+                <div id="payme-notice" class="payme-notice">在交易完成前請不要關閉此頁面</div>
+            </div>
+        </div>
+        
+        
+        <div class="payme-log-title">
+            <h2><?php echo __('Paying with PayMe'); ?></h2>
+            <div><?= __('1. Open the PayMe app'); ?></div>
+            <div><?= __('2. Scan the PayCode to authorize payment'); ?></div>
+            <div><?= __('3. Complete payment in the app and wait for the confirmation here'); ?></div>
+        </div>
+        <div class="payme-log-mobile-img" style="">
+            <img src="<?= $block->getMobileImageTop(); ?>" class="img"></img>
+        </div>
+        <div class="payme-log-mobile-title" style="">
+            <div>You have selected PayMe as your payment method and will be redirected to the PayMe app to complete payment.</div>
+        </div>
+        <div class="payme-log-mobile-div">
+            <div>
+                <img src="<?= $block->getMobileImage(); ?>" alt="" style="cursor: pointer"
+                    onclick="appRedirectFunction('<?php echo $paymePaymentRequest['webLink']; ?>')"/>
+            </div> 
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "payme_paycode_generator": {
+                "qrCodeLink": "<?= $paymePaymentRequest['webLink']; ?>",
+                "typenumber": "0",
+                "errorcorrection": "Q",
+                "size": "344"
+            }
+        }
+    }
+
+
+</script>
+
+<script>
+     function appRedirectFunction(link) {
+        location.href = link;
+    }
+    function getAjax() {
+        var oHttpReq = null;
+        if (window.ActiveXObject) {
+            oHttpReq = new ActiveXObject("MSXML2.XMLHTTP");
+        } else if (window.createRequest) {
+            oHttpReq = window.createRequest();
+        } else {
+            oHttpReq = new XMLHttpRequest();
+        }
+        return oHttpReq;
+    }
+
+    function scanevent() {
+        var url = "<?php echo $block->getScanEventUrl() . '/?cart_id=' . $block->getQuote()->getId();?>";
+        var req = getAjax();
+        req.open("GET", url, true);
+        req.onreadystatechange = function () {
+            if (req.readyState == 4) {
+                var rdata = req.responseText;
+                var response = eval('(' + rdata + ')');
+                if(response.message){
+                    document.getElementById('payme-notice').innerHTML = response.message;
+                }
+                
+                if (response.status === "ok") {
+                    clearInterval(timer);
+                    location.href = '<?php echo $block->getSuccessUrl()?>';
+                }
+                if (response.status === 'fail') {
+                    clearInterval(timer);
+                    location.href = '<?php echo $block->getFailureUrl()?>';
+                }
+            }
+        };
+        req.send(null);
+    }
+
+    var timer = setInterval(scanevent, 3000);
+</script>

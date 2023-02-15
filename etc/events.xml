@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="payment_method_assign_data">
+        <observer name="payme_payment_gateway_data_assign" instance="Deloitte\PayMe\Observer\DataAssignObserver" />
+    </event>
+    <event name="payme_payment_success">
+        <observer name="order_place_event" instance="Deloitte\PayMe\Observer\PaymentSuccess" />
+    </event>
+    <event name="payme_payment_fail">
+        <observer name="order_place_event" instance="Deloitte\PayMe\Observer\PaymentFail" />
+    </event>
+</config>
